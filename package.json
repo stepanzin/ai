@@ -1,0 +1,31 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "description": "AI Homework",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stepanzin/ai.git"
+  },
+  "keywords": [],
+  "author": "Stepan Zinchenko <asworlddivide@gmail.com> (https://github.com/stepanzin)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stepanzin/ai/issues"
+  },
+  "homepage": "https://github.com/stepanzin/ai#readme",
+  "dependencies": {
+    "materialize-css": "^0.97.7"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "chalk": "^1.1.3",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-watch": "^4.3.9"
+  }
+}
