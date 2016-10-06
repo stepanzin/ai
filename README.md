@@ -5,10 +5,8 @@
 
 
 ##Tech
-![Gulp](https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png)
-![Babel](https://www.dzejes.cz/images/babel-d9f70b85777d74bc12be9dccf20a05a7.jpg)
-![ES6](https://blog.codewithdan.com/wp-content/uploads/2016/04/es6-logo-300x300-270x250.png)
-
+<img src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png" height="200" alt="Gulp">
+<img src="https://blog.codewithdan.com/wp-content/uploads/2016/04/es6-logo-300x300-270x250.png" height="200" alt="ES6">
 
 ##install & usage
 Clone repo and for:
