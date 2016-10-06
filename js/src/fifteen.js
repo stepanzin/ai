@@ -1,4 +1,4 @@
-//=require modules/test.js
+//=require modules/fifteenModel.js
 
 // Строим модель.
 const fifteen = {
@@ -79,7 +79,7 @@ draw();
 const coords = index => {
   return {
     x: index % 4 + 1,
-    y: Math.floor(index / 4) + 1,
+    y: ~~(index / 4) + 1,
   }
 }
   // индекс ячейки с координатами x, y

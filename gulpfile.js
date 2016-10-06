@@ -14,9 +14,10 @@ var path = {
 gulp.task('default', ['ES6', 'watch']);
 
 gulp.task('watch', () => {
-  gulp.watch(path.pathToWatch, ['ES6'], (e) => {
-    console.log(`[${ch.blue(new Date().toTimeString().split(' ')[0])}] ${ch.yellow(e.path.match(/(\w+\.js)/g))} was edited! Rebuild JS file...`)
+  gulp.watch(path.pathToWatch, e => {
+    console.log(`[${ch.blue(new Date().toTimeString().split(' ')[0])}] ${ch.yellow(e.path.match(/(\w+\.js)/g))} was ${e.type}! Rebuild JS file...`)
   })
+  gulp.watch(path.pathToWatch, ['ES6'])
 })
 
 gulp.task('ES6', () => {
