@@ -92,7 +92,7 @@
     "no-iterator": 1,
     "no-labels": 1,
     "no-lone-blocks": 1,
-    "no-loop-func": 1,
+    "no-loop-func": 0,
     "no-multi-spaces": 1,
     "no-multi-str": 1,
     "no-native-reassign": 1,
