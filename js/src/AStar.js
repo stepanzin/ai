@@ -91,7 +91,7 @@ class AStar {
     if (!arr[i]) return false
     else if (move === this.move.left && !(hole % 3)) return false
     else if (move === this.move.right && !((hole + 1) % 3)) return false
-    else if (move === this.move.up && i <= 0) return false
+    else if (move === this.move.up && i < 0) return false
     else if (move === this.move.down && i > 9) return false
     arr.swap(i, hole)
     return arr
@@ -149,9 +149,18 @@ class AStar {
         estimation.push(diff)
         if (!solved) solved = newNode.isSolved()
       })
-      const index = estimation.indexOf(estimation.min())
-      selectedNode = selectedNode[nodeNames[index]]
-      //if (stage > 15) break
+      const min = estimation.min()
+      const index = []
+      estimation.filter((e, i) => {
+        if (e === min) index.push(i)
+      })
+      if (index.length === 1) selectedNode = selectedNode[nodeNames[index[0]]]
+      // TODO: realize 
+      // if 2 or more match then
+      // run successors for this nodes
+      else if (index.length > 1) {
+
+      }
 
       console.log('estimation:', estimation)
     } while (!solved)
