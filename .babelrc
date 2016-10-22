@@ -3,5 +3,5 @@
   //["transform-es2015-modules-systemjs"]
   //],
   //"moduleIds": true,
-  //"presets": ["es2015"]
+  "presets": ["es2017"]
 }

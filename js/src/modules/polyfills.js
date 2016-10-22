@@ -1,7 +1,7 @@
 Array.prototype.diff = function(a) {
   var diffArray = []
   this.forEach(function(e, i) {
-    if (e !== a[i]) diffArray.push(e)
+    if (e !== a[i] && e !== 0) diffArray.push(e)
   })
   return diffArray
 }
