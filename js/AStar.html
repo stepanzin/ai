@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>A* algorithm</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <style>
+    body {
+      height: 100rem;
+      font-family: 'Roboto', sans-serif;
+    }
+    .node circle,
+    .node rect {
+      fill: #fff;
+      stroke: steelblue;
+      stroke-width: 3px;
+    }
+
+    .node text {
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .link {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 2px;
+    }
+  </style>
+  <!-- load the d3.js library -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <script src="dist/AStar.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    let game = new AStar([2, 8, 3, 1, 6, 4, 7, 0, 5], [1, 2, 3, 8, 0, 4, 7, 6, 5])
+    game.startSolver().then(res => {
+      root = res
+      update(root)
+    })
+  </script>
+</body>
+</html>

@@ -1,16 +1,15 @@
-//=require modules/fifteenModel.js
 //=require modules/polyfills.js
 
-/*
+/**
  * GraphNode class
  * constructor args
- * @param  {Arrat} arr        [description]
+ * @param  {Array} arr        [description]
  * @param  {GraphNode} left   [description]
  * @param  {GraphNode} mid    [description]
  * @param  {GraphNode} rigth  [description]
  * @param  {GraphNode} parent [description]
  * @param  {Array} dest       [description]
- * @param  {Number} [stage=0] [description]
+ * @param  {Integer} stage    [description]
  */
 class GraphNode {
   constructor(arr, left, mid, rigth, parent, dest, stage = 0) {
@@ -54,6 +53,12 @@ class GraphNode {
 
 }
 
+/**
+ * A* class
+ * constructor
+ * @param  {Array} sourceArr [source array]
+ * @param  {Array} destArray [destination array]
+ */
 class AStar {
   constructor(sourceArr, destArray) {
     this.s = sourceArr || this.generateArray()
@@ -67,23 +72,28 @@ class AStar {
     }
     this.hole = 0
     this.queue = [this.s]
+    this.graph = {}
   }
 
   generateArray() {
     return [1, 2, 3, 4, 5, 6, 7, 8].sort(() => Math.random() - 0.5).concat(0)
   }
 
-  // graphWalk(node) {
-  //   function* iterTree(tree) {
-  //     if (Array.isArray(tree)) {
-  //       for (let i = 0; i < tree.length; i++) {
-  //         yield* iterTree(tree[i])
-  //       }
-  //     } else {
-  //       yield tree;
-  //     }
-  //   }
-  // }
+  traverseTree(node, depth = 0) {
+    const nodeObj = {
+      'name': depth ? depth + ' step' : 'Start',
+      'arr': node.arr,
+      'weight': node.diff,
+      'parent': node.parent,
+      'children': [],
+    }
+    depth++
+    if (node.left) nodeObj.children.push(this.traverseTree(node.left, depth))
+    if (node.mid) nodeObj.children.push(this.traverseTree(node.mid, depth))
+    if (node.right) nodeObj.children.push(this.traverseTree(node.right, depth))
+
+    return nodeObj
+  }
 
   moveHole(arr, move) {
     const hole = arr.indexOf(this.hole)
@@ -119,58 +129,55 @@ class AStar {
   }
 
   startSolver() {
-    const bench = new Date()
-    const lurd = [
-      this.move.left,
-      this.move.up,
-      this.move.right,
-      this.move.down,
-    ]
-    const nodeNames = ['left', 'mid', 'right']
-    let solved = false
-    let stage = 0
-    let selectedNode = this.startNode
-    do {
-      console.log('stage:', stage)
-      stage++
-      const newarr = []
-      const estimation = []
-      for (let i = 0; i < 4; i++) {
-        const standart = selectedNode.arr.slice(0)
-        const successorsElement = this.successors(standart, lurd[i])
-        if (successorsElement) newarr.push(successorsElement)
-      }
-      if (!newarr.length) break
-      newarr.forEach((e, i) => {
-        const newNode = new GraphNode(e, null, null, null, selectedNode, this.d, stage)
-        const diff = newNode.calcDiff()
-        newNode.diff = diff
-        selectedNode[nodeNames[i]] = newNode
-        estimation.push(diff)
-        if (!solved) solved = newNode.isSolved()
-      })
-      const min = estimation.min()
-      const index = []
-      estimation.filter((e, i) => {
-        if (e === min) index.push(i)
-      })
-      if (index.length === 1) selectedNode = selectedNode[nodeNames[index[0]]]
-      // TODO: realize 
-      // if 2 or more match then
-      // run successors for this nodes
-      else if (index.length > 1) {
+    return new Promise((resolve, reject) => {
+      const bench = new Date()
+      const lurd = [
+        this.move.left,
+        this.move.up,
+        this.move.right,
+        this.move.down,
+      ]
+      const nodeNames = ['left', 'mid', 'right']
+      let solved = false
+      let stage = 0
+      let selectedNode = this.startNode
+      do {
+        stage++
+        const newarr = []
+        const estimation = []
+        for (let i = 0; i < 4; i++) {
+          const standart = selectedNode.arr.slice(0)
+          const successorsElement = this.successors(standart, lurd[i])
+          if (successorsElement) newarr.push(successorsElement)
+        }
+        if (!newarr.length) break
+        newarr.forEach((e, i) => {
+          const newNode = new GraphNode(e, null, null, null, selectedNode, this.d, stage)
+          const diff = newNode.calcDiff()
+          newNode.diff = diff
+          selectedNode[nodeNames[i]] = newNode
+          estimation.push(diff)
+          if (!solved) solved = newNode.isSolved()
+        })
+        const min = estimation.min()
+        const index = []
+        estimation.filter((e, i) => {
+          if (e === min) index.push(i)
+        })
+        if (index.length === 1) selectedNode = selectedNode[nodeNames[index[0]]]
+        else if (index.length > 1) {
+          selectedNode = selectedNode[nodeNames[index[0]]]
+        }
+      } while (!solved)
 
-      }
+      const endBench = (new Date() - bench) + ' ms'
+      console.log('Solved at:', endBench)
+      console.log('Root Node:', this.startNode)
+      this.graph = this.traverseTree(this.startNode)
+      resolve(this.graph, endBench)
+    });
 
-      console.log('estimation:', estimation)
-    } while (!solved)
-
-    console.log('Solved at:', new Date() - bench, 'ms')
-    console.log('Root Node:', this.startNode)
-    console.log('Stage:', stage)
-    console.log('Results:', solved)
   }
 }
 
-const game = new AStar([2, 8, 3, 1, 6, 4, 7, 0, 5], [1, 2, 3, 8, 0, 4, 7, 6, 5])
-game.startSolver()
+//=require modules/d3-graph.js

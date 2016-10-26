@@ -1,3 +1,7 @@
+/**
+ * Polyfills start here
+ */
+
 Array.prototype.diff = function(a) {
   var diffArray = []
   this.forEach(function(e, i) {
